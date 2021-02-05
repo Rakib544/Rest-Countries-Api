@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rest Countries</title>
+    <!--Bootstrap cdn link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <h2 class="text-center my-5 text-dark">Rest Countries Projects</h2>
+    </header>
+    <main class="container my-3">
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="parent">
+
+        </div>
+    </main>
+    <script>
+        fetch('https://restcountries.eu/rest/v2/all')
+            .then(res => res.json())
+            .then(data => {
+                const countries = data;
+                countries.forEach(element => {
+                    const newDiv = document.createElement('div');
+                    
+                    newDiv.innerHTML = `
+                    <div class="card h-100">
+                        <img id="flag" src=${element.flag} class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h4 class="card-title" id="country-name">${element.name}</h4>
+                            <h6 class="card-text">Population : <strong id="population">${element.population}</strong></h6>
+                            <h6 class="card-text">Region : <strong id="region">${element.region}</strong> </h6>
+                            <h6 class="card-text">Capital : <strong id="capital">${element.capital}</strong></h6>
+                        </div>
+                    </div>`
+
+
+                    const parentDiv = document.getElementById('parent');
+                    parentDiv.appendChild(newDiv);
+                });
+            })
+    </script>
+</body>
+
+</html>

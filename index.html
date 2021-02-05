@@ -15,9 +15,8 @@
         <h2 class="text-center my-5 text-dark">Rest Countries Projects</h2>
     </header>
     <main class="container my-3">
-        <div class="row row-cols-1 row-cols-md-3 g-4" id="parent">
-
-        </div>
+        <div id="modal" class="col-8"></div>
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="parent"></div>
     </main>
     <script>
         fetch('https://restcountries.eu/rest/v2/all')
@@ -26,23 +25,42 @@
                 const countries = data;
                 countries.forEach(element => {
                     const newDiv = document.createElement('div');
-                    
+
                     newDiv.innerHTML = `
-                    <div class="card h-100">
+                    <div class="card h-100 p-2">
                         <img id="flag" src=${element.flag} class="card-img-top" alt="...">
                         <div class="card-body">
                             <h4 class="card-title" id="country-name">${element.name}</h4>
                             <h6 class="card-text">Population : <strong id="population">${element.population}</strong></h6>
                             <h6 class="card-text">Region : <strong id="region">${element.region}</strong> </h6>
                             <h6 class="card-text">Capital : <strong id="capital">${element.capital}</strong></h6>
+                            
                         </div>
+                        <div class="cart-footer">
+                                <button onclick="showFullInfo('${element.name}')" class = "btn btn-outline-dark">View Details </button>
+                            </div>
                     </div>`
 
 
                     const parentDiv = document.getElementById('parent');
                     parentDiv.appendChild(newDiv);
+
                 });
             })
+
+        const showFullInfo = countryName => {
+            const url = `https://restcountries.eu/rest/v2/name/${countryName}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const modal = document.getElementById('modal');
+                    modal.innerHTML = `
+                    <h1>Name: ${data[0].name}<h1>
+                `
+                });
+
+
+        }
     </script>
 </body>
 

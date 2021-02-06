@@ -5,46 +5,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rest Countries</title>
+
     <!--Bootstrap cdn link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!--css link-->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header>
-        <h2 class="text-center my-5 text-dark">Rest Countries Projects</h2>
+        <h2 class="text-center py-5 bg-dark text-white">Rest Countries Projects</h2>
     </header>
-    <main class="container my-3">
-        <div id="modal" class="col-8"></div>
-        <div class="row row-cols-1 row-cols-md-3 g-4" id="parent"></div>
+    <main class="bg-dark">
+        <div class="container">
+            <div id="modal-body">
+                <div id="modal" class="col-lg-5 col-sm-10 col-md-10 mx-auto"> </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover">
+
+                    <!--table head part start-->
+                    <thead class="text-center">
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Alfa 2code</th>
+                            <th>Alfa 3code</th>
+                            <th>Phone Indicator</th>
+                            <th>Population</th>
+                            <th>Capital</th>
+                            <th>Region</th>
+                            <th>Full Info</th>
+                        </tr>
+                    </thead>
+                    <!--table head part end-->
+
+                    <!--table body part start-->
+                    <tbody id='parent' class="text-center"></tbody>
+                     <!--table body part end-->
+
+                </table>
+            </div>
+        </div>
     </main>
+    
     <script>
         fetch('https://restcountries.eu/rest/v2/all')
             .then(res => res.json())
             .then(data => {
                 const countries = data;
+                console.log(countries)
                 countries.forEach(element => {
-                    const newDiv = document.createElement('div');
-
-                    newDiv.innerHTML = `
-                    <div class="card h-100 p-2">
-                        <img id="flag" src=${element.flag} class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h4 class="card-title" id="country-name">${element.name}</h4>
-                            <h6 class="card-text">Population : <strong id="population">${element.population}</strong></h6>
-                            <h6 class="card-text">Region : <strong id="region">${element.region}</strong> </h6>
-                            <h6 class="card-text">Capital : <strong id="capital">${element.capital}</strong></h6>
-                            
-                        </div>
-                        <div class="cart-footer">
-                                <button onclick="showFullInfo('${element.name}')" class = "btn btn-outline-dark">View Details </button>
-                            </div>
-                    </div>`
-
-
-                    const parentDiv = document.getElementById('parent');
-                    parentDiv.appendChild(newDiv);
-
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><img src=${element.flag} alt="country image"></td>
+                        <td>${element.name}</td>
+                        <td>${element.alpha2Code}</td>
+                        <td>${element.alpha3Code}</td>
+                        <td>${element.callingCodes}</td>
+                        <td>${element.population}</td>
+                        <td>${element.capital}</td>
+                        <td>${element.region}</td>
+                        <td><button onclick="showFullInfo('${element.name}')" class = "btn btn-outline-info">More</button></td>
+                    `
+                    const tbody = document.getElementById('parent');
+                    tbody.appendChild(tr);
                 });
             })
 
@@ -54,12 +81,27 @@
                 .then(res => res.json())
                 .then(data => {
                     const modal = document.getElementById('modal');
+                    const modalBody = document.getElementById('modal-body');
+                    modalBody.style.display = 'block';
                     modal.innerHTML = `
-                    <h1>Name: ${data[0].name}<h1>
-                `
+                    <div class="card h-100 p-2">
+                        <span onclick="hideInfo()" id="close-info">&#x2715;</span>
+                        <img id="flag" src=${data[0].flag} class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h4 class="card-title text-center" id="country-name">${data[0].name}</h4>
+                            <h6 class="card-text text-cente">Capital : <strong id="capital">${data[0].capital}</strong></h6>
+                            <h6 class="card-text">Population : <strong id="population">${data[0].population}</strong></h6>
+                            <h6 class="card-text">Region : <strong id="region">${data[0].region}</strong> </h6>
+                            <h6 class="card-text">Alpha 2 Code : <strong id="region">${data[0].alpha2Code}</strong> </h6>
+                            <h6 class="card-text">Alpha 3 Code : <strong id="region">${data[0].alpha3Code}</strong> </h6>
+                            <h6 class="card-text">Area : <strong id="region">${data[0].area}</strong> </h6>
+                        </div>
+                    </div>`
                 });
+        }
 
-
+        const hideInfo = () => {
+            document.getElementById('modal-body').style.display = "none";
         }
     </script>
 </body>

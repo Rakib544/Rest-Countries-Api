@@ -1,0 +1,34 @@
+img{
+    width: 80px;
+    display: block;
+    margin: 0 auto;
+}
+
+#modal-body {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.2);
+    width: 100vw;
+    height: 100vh;
+}
+
+#modal {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+#modal img {
+    width: 200px;
+}
+
+#close-info {
+    text-align: right;
+    cursor: pointer;
+    font-weight: bold;
+}

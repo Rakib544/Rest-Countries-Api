@@ -44,65 +44,82 @@
 
                     <!--table body part start-->
                     <tbody id='parent' class="text-center"></tbody>
-                     <!--table body part end-->
+                    <!--table body part end-->
 
                 </table>
             </div>
         </div>
     </main>
-    
+
     <script>
+
+        //Fetching all countries information
         fetch('https://restcountries.eu/rest/v2/all')
             .then(res => res.json())
             .then(data => {
-                const countries = data;
-                console.log(countries)
-                countries.forEach(element => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><img src=${element.flag} alt="country image"></td>
-                        <td>${element.name}</td>
-                        <td>${element.alpha2Code}</td>
-                        <td>${element.alpha3Code}</td>
-                        <td>${element.callingCodes}</td>
-                        <td>${element.population}</td>
-                        <td>${element.capital}</td>
-                        <td>${element.region}</td>
-                        <td><button onclick="showFullInfo('${element.name}')" class = "btn btn-outline-info">More</button></td>
-                    `
-                    const tbody = document.getElementById('parent');
-                    tbody.appendChild(tr);
-                });
+                showAllCountry(data)
             })
 
+
+        //handling show all countries in the table 
+        const showAllCountry = countries => {
+            countries.forEach(country => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                        <td><img src=${country.flag} alt="country image"></td>
+                        <td>${country.name}</td>
+                        <td>${country.alpha2Code}</td>
+                        <td>${country.alpha3Code}</td>
+                        <td>${country.callingCodes}</td>
+                        <td>${country.population}</td>
+                        <td>${country.capital}</td>
+                        <td>${country.region}</td>
+                        <td><button onclick="showFullInfo('${country.name}')" class = "btn btn-outline-info">More</button></td>
+                    `
+                const tbody = document.getElementById('parent');
+                tbody.appendChild(tr);
+            });
+        }
+
+
+        //handling show more information for the selected country functionality
         const showFullInfo = countryName => {
             const url = `https://restcountries.eu/rest/v2/name/${countryName}`;
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
-                    const modal = document.getElementById('modal');
-                    const modalBody = document.getElementById('modal-body');
-                    modalBody.style.display = 'block';
-                    modal.innerHTML = `
-                    <div class="card h-100 p-2">
-                        <span onclick="hideInfo()" id="close-info">&#x2715;</span>
-                        <img id="flag" src=${data[0].flag} class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h4 class="card-title text-center" id="country-name">${data[0].name}</h4>
-                            <h6 class="card-text text-cente">Capital : <strong id="capital">${data[0].capital}</strong></h6>
-                            <h6 class="card-text">Population : <strong id="population">${data[0].population}</strong></h6>
-                            <h6 class="card-text">Region : <strong id="region">${data[0].region}</strong> </h6>
-                            <h6 class="card-text">Alpha 2 Code : <strong id="region">${data[0].alpha2Code}</strong> </h6>
-                            <h6 class="card-text">Alpha 3 Code : <strong id="region">${data[0].alpha3Code}</strong> </h6>
-                            <h6 class="card-text">Area : <strong id="region">${data[0].area}</strong> </h6>
-                        </div>
-                    </div>`
+                    showSelectedCountryInfo(data);
                 });
         }
 
+
+        //handling showing the selected countries details information functionality
+        const showSelectedCountryInfo = SelectCountry => {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modal-body');
+            modalBody.style.display = 'block';
+            modal.innerHTML = `
+                    <div class="card h-100 p-2">
+                        <span onclick="hideInfo()" id="close-info">&#x2715;</span>
+                        <img id="flag" src=${SelectCountry[0].flag} class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h4 class="card-title text-center" id="country-name">${SelectCountry[0].name}</h4>
+                            <h6 class="card-text text-cente">Capital : <strong id="capital">${SelectCountry[0].capital}</strong></h6>
+                            <h6 class="card-text">Population : <strong id="population">${SelectCountry[0].population}</strong></h6>
+                            <h6 class="card-text">Region : <strong id="region">${SelectCountry[0].region}</strong> </h6>
+                            <h6 class="card-text">Alpha 2 Code : <strong id="region">${SelectCountry[0].alpha2Code}</strong> </h6>
+                            <h6 class="card-text">Alpha 3 Code : <strong id="region">${SelectCountry[0].alpha3Code}</strong> </h6>
+                            <h6 class="card-text">Area : <strong id="region">${SelectCountry[0].area}</strong> </h6>
+                        </div>
+                    </div>`
+        }
+
+
+        //handling modal hide functionality
         const hideInfo = () => {
             document.getElementById('modal-body').style.display = "none";
         }
+
     </script>
 </body>
 

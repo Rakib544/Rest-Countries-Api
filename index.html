@@ -95,6 +95,7 @@
 
         //handling showing the selected countries details information functionality
         const showSelectedCountryInfo = SelectCountry => {
+            console.log(SelectCountry[0])
             const modal = document.getElementById('modal');
             const modalBody = document.getElementById('modal-body');
             modalBody.style.display = 'block';
@@ -107,9 +108,8 @@
                             <h6 class="card-text text-cente">Capital : <strong id="capital">${SelectCountry[0].capital}</strong></h6>
                             <h6 class="card-text">Population : <strong id="population">${SelectCountry[0].population}</strong></h6>
                             <h6 class="card-text">Region : <strong id="region">${SelectCountry[0].region}</strong> </h6>
-                            <h6 class="card-text">Alpha 2 Code : <strong id="region">${SelectCountry[0].alpha2Code}</strong> </h6>
-                            <h6 class="card-text">Alpha 3 Code : <strong id="region">${SelectCountry[0].alpha3Code}</strong> </h6>
                             <h6 class="card-text">Area : <strong id="region">${SelectCountry[0].area}</strong> </h6>
+                            <h6 class="card-text">Local Time : <strong id="region">${SelectCountry[0].timezones[0]}</strong> </h6>
                         </div>
                     </div>`
         }
